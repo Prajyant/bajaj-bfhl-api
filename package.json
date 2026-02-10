@@ -1,0 +1,21 @@
+{
+  "name": "bfhl-api",
+  "version": "1.0.0",
+  "description": "REST API for BFHL Qualifier",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
