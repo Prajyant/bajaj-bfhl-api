@@ -5,14 +5,12 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Replace with your Chitkara email
-const OFFICIAL_EMAIL = "prajyant2494.be23@chitkara.edu.in";
+// Official email and API key from environment
+const OFFICIAL_EMAIL = process.env.OFFICIAL_EMAIL || "prajyant2494.be23@chitkara.edu.in";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // never hardcode secrets
 
-// Replace with your Gemini API key
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyBWgoCKnKRdaLRuAfryL__q2qIcr2chixw";
-
-// Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+// Initialize Gemini AI only if API key is available
+const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 
 // Middleware
 app.use(cors());
@@ -92,6 +90,7 @@ function calculateLCM(arr) {
 // Get AI response using Gemini
 async function getAIResponse(question) {
     try {
+        if (!genAI) throw new Error('GEMINI_API_KEY not configured');
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const prompt = `Answer the following question in exactly ONE WORD only. No explanations, no punctuation, just the single word answer.\n\nQuestion: ${question}`;
         
@@ -122,6 +121,15 @@ async function getAIResponse(question) {
 }
 
 // ============ ROUTES ============
+
+// Root info (avoid confusion when hitting /)
+app.get('/', (req, res) => {
+    return res.status(200).json({
+        is_success: true,
+        official_email: OFFICIAL_EMAIL,
+        message: 'BFHL API is running. Use GET /health or POST /bfhl.'
+    });
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
