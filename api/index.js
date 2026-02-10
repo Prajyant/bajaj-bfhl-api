@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+// Vercel serverless function
 const app = express();
 
 // Replace with your Chitkara email
