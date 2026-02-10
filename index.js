@@ -127,7 +127,11 @@ app.get('/', (req, res) => {
     return res.status(200).json({
         is_success: true,
         official_email: OFFICIAL_EMAIL,
-        message: 'BFHL API is running. Use GET /health or POST /bfhl.'
+        message: 'BFHL API – Chitkara University Qualifier',
+        endpoints: {
+            'POST /bfhl': 'Process fibonacci, prime, lcm, hcf, AI',
+            'GET /health': 'Health check endpoint'
+        }
     });
 });
 
